@@ -32,6 +32,12 @@ const wrongFormat = [];
 
 // Scroll
 
+// Display Game Page
+const showGamePage = () => {
+  gamePage.hidden = false;
+  countdownPage.hidden = true;
+};
+
 // Get Random Number up to max number
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
@@ -107,6 +113,7 @@ const showCountdown = () => {
   splashPage.hidden = true;
   countdownStart();
   createEquations();
+  setTimeout(showGamePage, 4000);
 };
 
 // Get the value from selected radio button

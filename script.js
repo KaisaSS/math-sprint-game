@@ -17,3 +17,14 @@ const finalTimeEl = document.querySelector(".final-time");
 const baseTimeEl = document.querySelector(".base-time");
 const penaltyTimeEl = document.querySelector(".penalty-time");
 const playAgainBtn = document.querySelector(".play-again");
+
+startForm.addEventListener("click", () => {
+  radioContainers.forEach((radioEl) => {
+    // Remove Selected Label Styling
+    radioEl.classList.remove("selected-label");
+    // Add it back if radio input is checked
+    if (radioEl.children[1].checked) {
+      radioEl.classList.add("selected-label");
+    }
+  });
+});

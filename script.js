@@ -21,6 +21,7 @@ const playAgainBtn = document.querySelector(".play-again");
 // Equations
 let questionAmount = 0;
 let equationsArray = [];
+let playerGuessArray = [];
 
 // Game Page
 let firstNumber = 0;
@@ -31,6 +32,17 @@ const wrongFormat = [];
 // Time
 
 // Scroll
+let valueY = 0;
+
+// Scroll, Store User Selection in playerGuessArray
+const select = (guessedTrue) => {
+  console.log("player guess array:", playerGuessArray);
+  // Scroll 80px
+  valueY += 80;
+  itemContainer.scroll(0, valueY);
+  // Add guess to array
+  return guessedTrue ? playerGuessArray.push("true") : playerGuessArray.push("false");
+};
 
 // Display Game Page
 const showGamePage = () => {
@@ -47,11 +59,11 @@ const getRandomInt = (max) => {
 const createEquations = () => {
   // Randomly choose how many correct equations there should be
   const correctEquations = getRandomInt(questionAmount);
-  console.log("correct equations", correctEquations);
+  console.log("correct equations:", correctEquations);
   // Set amount of wrong equations
   const wrongEquations = questionAmount - correctEquations;
-  console.log("wrong equations", wrongEquations);
-  // Loop through, multiply random numbers up to 9, push to array
+  console.log("wrong equations:", wrongEquations);
+  // Loop through for each correct equation, multiply random numbers up to 9, push to array
   for (let i = 0; i < correctEquations; i++) {
     firstNumber = getRandomInt(9);
     secondNumber = getRandomInt(9);
@@ -68,7 +80,7 @@ const createEquations = () => {
     wrongFormat[0] = `${firstNumber} x ${secondNumber + 1} = ${equationValue}`;
     wrongFormat[1] = `${firstNumber} x ${secondNumber} = ${equationValue - 1}`;
     wrongFormat[2] = `${firstNumber + 1} x ${secondNumber} = ${equationValue}`;
-    const formatChoice = getRandomInt(3);
+    const formatChoice = getRandomInt(2);
     const equation = wrongFormat[formatChoice];
     equationObject = { value: equation, evaluated: "false" };
     equationsArray.push(equationObject);
@@ -92,7 +104,7 @@ const equationsToDOM = () => {
 };
 
 // Dynamically adding correct/incorrect equations
-function populateGamePage() {
+const populateGamePage = () => {
   // Reset DOM, Set Blank Space Above
   itemContainer.textContent = "";
   // Spacer
@@ -112,7 +124,7 @@ function populateGamePage() {
   const bottomSpacer = document.createElement("div");
   bottomSpacer.classList.add("height-500");
   itemContainer.appendChild(bottomSpacer);
-}
+};
 
 // Display countdown
 const countdownStart = () => {
@@ -158,6 +170,7 @@ const selectQuestionAmount = (e) => {
   }
 };
 
+// Switch selected input styling
 startForm.addEventListener("click", () => {
   radioContainers.forEach((radioEl) => {
     // Remove Selected Label Styling

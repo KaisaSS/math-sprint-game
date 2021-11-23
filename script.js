@@ -40,12 +40,24 @@ let finalTimeDisplay = "0.0s";
 // Scroll
 let valueY = 0;
 
-// Stop Timer, Pricess Results, and go to Score Page
+// Stop Timer, Process Results, and go to Score Page
 const checkTime = () => {
   console.log(timePlayed);
   if (playerGuessArray.length == questionAmount) {
     console.log("player guess array:", playerGuessArray);
     clearInterval(timer);
+
+    // Check for wrong guessed, add penalty
+    equationsArray.forEach((equation, i) => {
+      if (equation.evaluated === playerGuessArray[i]) {
+        // Correct, no Penalty
+      } else {
+        // Wrong, Penalty
+        penaltyTime += 0.5;
+      }
+    });
+    finalTime = timePlayed + penaltyTime;
+    console.log("time:", timePlayed, "penalty:", penaltyTime, "final:", finalTime);
   }
 };
 

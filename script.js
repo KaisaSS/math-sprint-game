@@ -21,6 +21,12 @@ const playAgainBtn = document.querySelector(".play-again");
 // Equations
 let questionAmount = 0;
 
+// Navigate from Splash page to Countdown page
+const showCountdown = () => {
+  countdownPage.hidden = false;
+  splashPage.hidden = true;
+};
+
 // Get the value from selected radio button
 const getRadioValue = () => {
   let radioValue;
@@ -37,6 +43,9 @@ const selectQuestionAmount = (e) => {
   e.preventDefault();
   questionAmount = getRadioValue();
   console.log("question amount:", questionAmount);
+  if (questionAmount) {
+    showCountdown();
+  }
 };
 
 startForm.addEventListener("click", () => {

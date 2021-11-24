@@ -36,10 +36,18 @@ let timePlayed = 0;
 let baseTime = 0;
 let penaltyTime = 0;
 let finalTime = 0;
-let finalTimeDisplay = "0.0s";
+let finalTimeDisplay = "0.0";
 
 // Scroll
 let valueY = 0;
+
+// Refresh Splash page scores
+const bestScoresToDOM = () => {
+  bestScores.forEach((bestScore, i) => {
+    const bestScoreEl = bestScore;
+    bestScoreEl.textContent = `${bestScoreArray[i].bestScore}s`;
+  });
+};
 
 // Check Local Storage for best score and set bestScoreArray
 const getSavedBestScores = () => {
@@ -54,6 +62,26 @@ const getSavedBestScores = () => {
     ];
     localStorage.setItem("bestScores", JSON.stringify(bestScoreArray));
   }
+  bestScoresToDOM();
+};
+
+// Update bestScoreArray
+const updateBestScore = () => {
+  bestScoreArray.forEach((score, i) => {
+    // Select correct bestScore to update
+    if (questionAmount == score.questions) {
+      // Return best score as one decimal number
+      const savedBestScore = Number(bestScoreArray[i].bestScore);
+      // Update if new score < old score || old score = 0
+      if (savedBestScore === 0 || savedBestScore > finalTime) {
+        bestScoreArray[i].bestScore = finalTimeDisplay;
+      }
+    }
+  });
+  // Update Splash Page
+  bestScoresToDOM;
+  // Save to local storage
+  localStorage.setItem("bestScores", JSON.stringify(bestScoreArray));
 };
 
 // Reset Game
@@ -82,10 +110,10 @@ const scoresToDOM = () => {
   finalTimeDisplay = finalTime.toFixed(1);
   baseTime = timePlayed.toFixed(1);
   penaltyTime = penaltyTime.toFixed(1);
-
   baseTimeEl.textContent = `Base Time: ${baseTime}s`;
   penaltyTimeEl.textContent = `Penalty: +${penaltyTime}s`;
   finalTimeEl.textContent = ` ${finalTimeDisplay}s`;
+  updateBestScore();
   // Scroll to top, go to Score page
   itemContainer.scrollTo({ top: 0, behavior: "instant" });
 

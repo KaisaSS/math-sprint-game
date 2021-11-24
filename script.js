@@ -71,7 +71,7 @@ const updateBestScore = () => {
     // Select correct bestScore to update
     if (questionAmount == score.questions) {
       // Return best score as one decimal number
-      const savedBestScore = Number(bestScoreArray[i].bestScore);
+      const savedBestScore = parseInt(bestScoreArray[i].bestScore);
       // Update if new score < old score || old score = 0
       if (savedBestScore === 0 || savedBestScore > finalTime) {
         bestScoreArray[i].bestScore = finalTimeDisplay;
@@ -79,7 +79,7 @@ const updateBestScore = () => {
     }
   });
   // Update Splash Page
-  bestScoresToDOM;
+  bestScoresToDOM();
   // Save to local storage
   localStorage.setItem("bestScores", JSON.stringify(bestScoreArray));
 };
@@ -112,7 +112,7 @@ const scoresToDOM = () => {
   penaltyTime = penaltyTime.toFixed(1);
   baseTimeEl.textContent = `Base Time: ${baseTime}s`;
   penaltyTimeEl.textContent = `Penalty: +${penaltyTime}s`;
-  finalTimeEl.textContent = ` ${finalTimeDisplay}s`;
+  finalTimeEl.textContent = `${finalTimeDisplay}s`;
   updateBestScore();
   // Scroll to top, go to Score page
   itemContainer.scrollTo({ top: 0, behavior: "instant" });
@@ -132,7 +132,6 @@ const checkTime = () => {
       if (equation.evaluated === playerGuessArray[i]) {
         // Correct, no Penalty
       } else {
-        // Wrong, Penalty
         penaltyTime += 0.5;
       }
     });
